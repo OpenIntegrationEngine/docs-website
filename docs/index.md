@@ -6,6 +6,9 @@ hero:
   name: "Open Integration Engine"
   text: "documentation"
   tagline: An open source fork of the now closed-source Mirth Connect
+  image:
+    src: 'https://raw.githubusercontent.com/OpenIntegrationEngine/governance/refs/heads/main/branding/logos/oie_logo_only.svg'
+    alt: Open Integration Engine
   actions:
     - theme: brand
       text: Documentation
