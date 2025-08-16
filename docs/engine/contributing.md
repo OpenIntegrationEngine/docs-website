@@ -25,7 +25,7 @@ git checkout -b feature/your-feature-name
 ```
 
 ### 5. Install Tooling
-OIE specifies the working versions of Java and Ant in [.sdkmanrc](./.sdkmanrc). To take advantage of this, install [SDKMAN](https://sdkman.io/) and run `sdk env install`
+OIE specifies the working versions of Java and Ant in [`.sdkmanrc`](https://github.com/OpenIntegrationEngine/engine/blob/main/.sdkmanrc). To take advantage of this, install [SDKMAN](https://sdkman.io/) and run `sdk env install`
 in the project's root directory.
 
 ### 6. Implement your changes
@@ -36,7 +36,7 @@ Implement the necessary changes, ensuring they align with the project’s coding
 Before submitting your changes, please ensure that all tests pass and that your changes work as expected in your local environment.
 
 ### 8. Submit a Pull Request
-Once your changes are ready, push them to your fork and create a **draft pull request (PR)** from your branch to the `main` branch of the project. Draft PRs help indicate that the work is in progress.  
+Once your changes are ready, push them to your fork and create a **draft pull request (PR)** from your branch to the `main` branch of the project. Draft PRs help indicate that the work is in progress.
 Mark the PR as **"Ready for review"** only when it is actually complete and ready for feedback. Include a brief description of the changes and reference the related issue.
 
 ## Reporting Bugs
@@ -65,6 +65,6 @@ If you would like to suggest a new feature or enhancement:
 
 ## License
 
-By contributing to **Open Integration Engine**, you agree that your contributions will be licensed under the [Mozilla Public License (MPL) 2.0](./LICENSE).
+By contributing to **Open Integration Engine**, you agree that your contributions will be licensed under the [Mozilla Public License (MPL) 2.0](https://github.com/OpenIntegrationEngine/engine/blob/main/LICENSE).
 
 Thank you for your interest in improving **Open Integration Engine**.

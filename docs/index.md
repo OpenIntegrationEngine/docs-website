@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Open Integration Engine"
-  text: "Open Integration Engine documentation"
+  text: "documentation"
   tagline: An open source fork of the now closed-source Mirth Connect
   actions:
     - theme: brand

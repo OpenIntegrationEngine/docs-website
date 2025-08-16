@@ -91,7 +91,7 @@ Forked from **Mirth Connect** following its shift to a proprietary model, this p
 
 ## Licensing
 
-Licensed under the **Mozilla Public License 2.0** (MPL 2.0). See [LICENSE](./LICENSE) for details.
+Licensed under the **Mozilla Public License 2.0** (MPL 2.0). See [LICENSE](https://github.com/OpenIntegrationEngine/engine/blob/main/LICENSE) for details.
 
 
 ## Acknowledgments
