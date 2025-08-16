@@ -1,7 +1,5 @@
 # Documentation site
 
-_Powered by VitePress_
-
 ## Prerequisites
 
 1. [Node](https://nodejs.org/en/download) of some sort
@@ -18,3 +16,5 @@ RUn the build script fo static ocmpilation
 ```sh
 bun run docs:build
 ```
+
+_Powered by [VitePress](https://vitepress.dev/)_
