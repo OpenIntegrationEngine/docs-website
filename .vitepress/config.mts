@@ -17,8 +17,6 @@ export default defineConfig({
   description: "Open Integration Engine documentation",
   srcDir: './docs',
 
-  base: '/docs-website/',
-
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
