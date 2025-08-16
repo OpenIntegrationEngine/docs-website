@@ -27,6 +27,8 @@ export default defineConfig({
       { text: 'Examples', link: '/examples' },
     ],
 
+    logo: 'https://raw.githubusercontent.com/OpenIntegrationEngine/governance/refs/heads/main/branding/logos/oie_logo_only_white_background.svg',
+
     search: {
       provider: 'local'
     },
