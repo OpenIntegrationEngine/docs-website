@@ -27,6 +27,11 @@ export default defineConfig({
 
     logo: 'https://raw.githubusercontent.com/OpenIntegrationEngine/governance/refs/heads/main/branding/logos/oie_logo_only_white_background.svg',
 
+    editLink: {
+      text: 'Edit this page on GitHub',
+      pattern: 'https://github.com/openintegrationengine/docs-website/edit/main/docs/:path'
+    },
+
     search: {
       provider: 'local'
     },
