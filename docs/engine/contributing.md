@@ -15,7 +15,7 @@ Start by forking the [Open Integration Engine GitHub repository](https://github.
 ### 3. Clone Your Fork
 Clone your fork locally to your development environment:
 ```bash
-git clone git@github.com:OpenIntegrationEngine/engine.git
+git clone git@github.com:your-github/engine.git
 ```
 
 ### 4. Make Changes
