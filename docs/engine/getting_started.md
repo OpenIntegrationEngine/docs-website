@@ -1,11 +1,11 @@
 # Getting started
 
 To quickly start with Open Integration Engine, also called OIE in this documentation, 
-You can use the different installers available on Windows, Mac OS and Linux platforms.
+you can use the different installers available on Windows, Mac OS and Linux platforms.
 
 ::: tip INFORMATION
 
-All installers are available at the release page on github, see [Github Release](https://github.com/OpenIntegrationEngine/engine/releases)
+All installers are available at the release page on GitHub, see [GitHub Release](https://github.com/OpenIntegrationEngine/engine/releases)
 
 The installers are available in 2 flavors:
 
@@ -20,7 +20,7 @@ The OIE Server operates as a completely self-contained application and does not 
 
 ### Java requirements
 
-The Open Integration Engine require Java 17+ to work
+The Open Integration Engine requires Java 17+ to work
 
 ::: warning
 OIE can work with older versions of Java, but this is not recommended, 
@@ -59,23 +59,23 @@ Double-click to launch the Open Integration Engine Installer
 
 ![OIE Installer Welcome Screen](images/gs_macos_install_step_1.png "OIE Installer Welcome Screen")
 
-The welcome screen just resume the information, just click on `Next`
+The welcome screen just resumes the information, just click on `Next`
 
 ![OIE Installer License Screen](images/gs_macos_install_step_2.png "OIE Installer License Screen")
 
-This screen display the license, to continue you must accept this licence by check `I accept the agrement`
+This screen displays the license, to continue you must accept this license by check `I accept the agreement`
 and after click on `Next`
 
 ![](images/gs_macos_install_step_3.png)
 
-Read this screen informations and click on `Next`to continue.
+Read this screen information and click on `Next`to continue.
 
 ![](images/gs_macos_install_step_4.png)
 
 You can choose another folder if you do not want to install as global package.
 
 ::: warning
-If you let the default application folder, to launch the oie server, you need to use `sudo`command.
+If you let the default application folder, to launch the oie server, you need to use `sudo` command.
 :::
 
 And click on `Next` to start the installation.
@@ -95,7 +95,7 @@ Now, open a Terminal and start the OIE server
 sudo /Applications/OpenIntegrationEngine/oieserver
 ```
 
-The first time, the server create the default database, if server is launch correctly, you need to display these lines
+The first time, the server creates the default database. If server is launched correctly, you shoud see. the following lines:
 
 ```shell
 INFO  2026-01-15 20:07:38.773 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine 4.5.2 (Built on July 8, 2025) server successfully started.
@@ -114,15 +114,17 @@ Please note these URLs, as we will need them later.
 
 ## First launch
 
-To verify if the OIE server is availble, open your web browser and enter the URL previously noted.
+To verify if the OIE server is available, open your web browser and enter the URL previously noted.
 
 After confirmed to accept self signed certificate, you will see this page
 
 ![OIE Server Welcome Page](images/gs_web_browser_step_1.png "OIE Server Welcome Page")
 
-Copy the Administator Launcher URL
+Copy the Administrator Launcher URL
 
 ### Ballista
+
+[Ballista](https://github.com/kayyagari/ballista/releases) is the web-based administration interface for Open Integration Engine based on Tauri.
 
 ### MCAL
 
@@ -138,7 +140,7 @@ If it's the first launch, the left panel with connections is empty
 
 To work better with OIE, choose `Bundled Java 17`
 
-And just click on `Launch`at the top right screen.
+And just click on `Launch` at the top right screen.
 
 You should see a progress bar that will load the files necessary to launch the Open Integration Engine client.
 
@@ -152,13 +154,13 @@ If you use a new instance, the defaults credentials are:
 * password: **admin**
 :::
 
-After enter credential, click on `Login` Button
+After entering your credentials, click on `Login` button.
 
 ![](images/gs_oie_login_step_2.png)
 
 After some time, you will see the OIE dashboard.
 
-Now it ask to change the default password
+Now it asks to change the default password
 
 ![](images/gs_oie_credential_update_step_1.png)
 
