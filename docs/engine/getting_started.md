@@ -33,11 +33,11 @@ OIE uses an embedded Apache with the Derby database by default, which allows you
 
 For production deployments, it is recommended to use only database versions currently receiving official security and maintenance support from their respective vendors. The following database engines are supported as backends:
 
-* PostgreSQL and above
-* MySQL 8.0 and above
-* MariaDB 10.11 and above
-* Oracle 18c and above
-* SQL Server 2019 and above
+* PostgreSQL
+* MySQL
+* MariaDB
+* Oracle
+* SQL Server
 
 ## Download and installation
 
