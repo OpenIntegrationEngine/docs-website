@@ -1,11 +1,17 @@
+---
+title: Open Integration Engine getting started
+description: First step to install on Windows and MacOS X and proceed to the first launch
+author: Christophe Chauvet
+---
+
 # Getting started
 
-To quickly start with Open Integration Engine, also called OIE in this documentation, 
+To quickly start with Open Integration Engine™️, also called OIE™️ in this documentation, 
 you can use the different installers available on Windows, Mac OS and Linux platforms.
 
 ::: tip INFORMATION
 
-All installers are available at the release page on GitHub, see [GitHub Release](https://github.com/OpenIntegrationEngine/engine/releases)
+All installers are available at the releases page on GitHub, see [GitHub Releases](https://github.com/OpenIntegrationEngine/engine/releases)
 
 The installers are available in 2 flavors:
 
@@ -13,25 +19,19 @@ The installers are available in 2 flavors:
 * Without JRE
 :::
 
-
 ## System requirements
 
 The OIE Server operates as a completely self-contained application and does not depend on any external application server.
 
 ### Java requirements
 
-The Open Integration Engine requires Java 17+ to work
-
-::: warning
-OIE can work with older versions of Java, but this is not recommended, 
-as some extensions may require version 17 to function correctly.
-:::
+The Open Integration Engine requires Java 17+ to work.
 
 ### Database requirements
 
-OIE comes with the Derby database by default, which allows you to store configuration and messages, for the purpose of rapid deployment, development and testing.
+OIE uses an embedded Apache with the Derby database by default, which allows you to store configuration and messages, for the purpose of rapid deployment, development and testing.
 
-However, during a production deployment, it is recommended to use one of the following database engines:
+For production deployments, it is recommended to use only database versions currently receiving official security and maintenance support from their respective vendors. The following database engines are supported as backends:
 
 * PostgreSQL and above
 * MySQL 8.0 and above
@@ -44,11 +44,12 @@ However, during a production deployment, it is recommended to use one of the fol
 You can download the latest version of Open Integration Engine for your platform at this 
 [address](https://github.com/OpenIntegrationEngine/engine/releases/latest).
 
-
 ### Windows
 
 ::: info
 Add Screenshots for windows Installation
+
+Wizard screenshots are similar to Mac OS part
 :::
 
 ### Mac OS
@@ -82,7 +83,6 @@ And click on `Next` to start the installation.
 
 ![](images/gs_macos_install_step_5.png)
 
-
 You can display the progress of the installation with this screen
 
 ![OIE Installer Summary](images/gs_macos_install_step_6.png "OIE Installer Summary")
@@ -95,7 +95,7 @@ Now, open a Terminal and start the OIE server
 sudo /Applications/OpenIntegrationEngine/oieserver
 ```
 
-The first time, the server creates the default database. If server is launched correctly, you shoud see. the following lines:
+During the first launch, the server initializes the database. If the server is launched correctly, you should see the following lines:
 
 ```shell
 INFO  2026-01-15 20:07:38.773 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine 4.5.2 (Built on July 8, 2025) server successfully started.
@@ -109,9 +109,6 @@ INFO  2026-01-15 20:07:38.778 [Main Server Thread] com.mirth.connect.server.Mirt
 Please note these URLs, as we will need them later.
 :::
 
-### Linux
-
-
 ## First launch
 
 To verify if the OIE server is available, open your web browser and enter the URL previously noted.
@@ -124,11 +121,11 @@ Copy the Administrator Launcher URL
 
 ### Ballista
 
-[Ballista](https://github.com/kayyagari/ballista/releases) is the web-based administration interface for Open Integration Engine based on Tauri.
+[Ballista](https://github.com/kayyagari/ballista/releases) is an open-source Administrator launcher for Open Integration Engine based on Tauri.
 
 ### MCAL
 
-The original Mirth Connect Administrator Launcher works with OIE, you can use it.
+The original Mirth® Connect Administrator Launcher by NextGen Healthcare works with OIE. Here is how you can use it to launch the OIE Administrator client GUI application.
 
 Go to the Mac Os Launcher and search Mirth, you will see this icon.
 
@@ -148,7 +145,7 @@ You should see a progress bar that will load the files necessary to launch the O
 
 ::: warning
 
-If you use a new instance, the defaults credentials are:
+If you use a new instance, the default credentials are:
 
 * login: **admin**
 * password: **admin**
@@ -170,4 +167,4 @@ And click on `Finish`
 
 ![](images/gs_oie_dashboard.png)
 
-It's finished, now you can start to use OIE server,
+It's finished, Now you can start to use your OIE server.
