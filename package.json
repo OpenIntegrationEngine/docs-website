@@ -1,4 +1,9 @@
 {
+  "name": "open-integration-engine-docs",
+  "private": true,
+  "description": "Official documentation for Open Integration Engine™",
+  "type": "module",
+  "license": "(CC-BY-4.0 AND CC0-1.0)",
   "dependencies": {},
   "devDependencies": {
     "vitepress": "^1.6.4"

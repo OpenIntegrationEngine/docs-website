@@ -1,0 +1,37 @@
+Copyright (c) 2025-present Open Integration Engine Contributors
+
+The content of this repository is bound by the following licenses:
+
+1. DOCUMENTATION & MEDIA
+   All documentation text, images, and non-code assets are licensed under the
+   Creative Commons Attribution 4.0 International (CC-BY 4.0) License.
+
+   You are free to share and adapt the material as long as you provide attribution
+   to "Open Integration Engine Contributors" and a link to this repository.
+
+   Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+--------------------------------------------------------------------------------
+
+2. CODE SAMPLES & SNIPPETS
+   All code samples, scripts, configuration files, and inline code snippets
+   contained within the documentation are dedicated to the public domain under
+   the Creative Commons CC0 1.0 Universal Public Domain Dedication, unless
+   otherwise noted in a specific file header included with the code.
+
+   You are free to copy, modify, distribute, and perform the work, even for
+   commercial purposes, all without asking permission and without required
+   attribution.
+
+   Full license text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+--------------------------------------------------------------------------------
+
+DISCLAIMER
+THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
