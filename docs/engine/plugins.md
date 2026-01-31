@@ -69,27 +69,29 @@ For environments where UI-based installation is not feasible, you can install pl
 
 When running OIE in a Docker container, you have several options for installing plugins:
 
-#### Option 1: Volume Mount (Recommended)
+#### Example 1: Docker CLI with `custom-extensions` Volume Mount
 
-Mount a host directory containing plugins to the container's extensions directory:
+Mount a host directory containing plugin zip files to the container's `custom-extensions` directory. The container's entrypoint script will unzip and install them to the `extensions` directory prior to launching the server:
 
 ```bash
 docker run -d \
-  -v /path/to/local/extensions:/opt/oie/extensions \
+  -v /path/to/local/custom-extensions:/opt/engine/custom-extensions \
   openintegrationengine/engine:latest
 ```
 
-#### Option 2: Custom Dockerfile
+#### Example 2: Custom Dockerfile with manual installation
 
 Create a custom Docker image with plugins pre-installed:
 
-```dockerfile
+::: code-group
+```dockerfile [Dockerfile]
 FROM openintegrationengine/engine:latest
 
 COPY my-plugin.zip /tmp/
-RUN unzip /tmp/my-plugin.zip -d /opt/oie/extensions/ && \
+RUN unzip /tmp/my-plugin.zip -d /opt/engine/extensions/ && \
     rm /tmp/my-plugin.zip
 ```
+:::
 
 Build and run:
 
@@ -98,21 +100,23 @@ docker build -t oie-with-plugins .
 docker run -d oie-with-plugins
 ```
 
-#### Option 3: Docker Compose
+#### Example 3: Docker Compose with `EXTENSIONS_DOWNLOAD` URL
 
-Using Docker Compose with volume mounts:
+The container supports downloading a bundle of extensions from a remote web server and installing them prior to launching the server. The bundle file is a zip file that contains one or more extension zip files to be installed:
 
-```yaml
+::: code-group
+```yaml [compose.yaml]
 version: '3.8'
 services:
   oie:
     image: openintegrationengine/engine:latest
-    volumes:
-      - ./extensions:/opt/oie/extensions
+    environment:
+      - EXTENSIONS_DOWNLOAD=https://my-bucket.s3.us-east-1.amazonaws.com/my-oie-extensions-bundle.zip
     ports:
       - "8080:8080"
       - "8443:8443"
 ```
+:::
 
 ## Uninstalling Plugins
 
