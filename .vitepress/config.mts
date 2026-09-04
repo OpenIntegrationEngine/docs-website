@@ -36,6 +36,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'Overview', link: '/engine/' },
+          { text: 'Core Concepts', link: '/engine/core_concepts'},
           { text: 'Installation', link: '/engine/installation' },
           { text: 'Server Process Management', link: '/engine/server_process_management' },
           { text: 'Accessing the Administrator', link: '/engine/accessing_the_administrator' },
