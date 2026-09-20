@@ -40,6 +40,7 @@ export default defineConfig({
           { text: 'Server Process Management', link: '/engine/server_process_management' },
           { text: 'Accessing the Administrator', link: '/engine/accessing_the_administrator' },
           { text: 'Plugin Guide', link: '/engine/plugins' },
+          { text: 'Building from Source', link: '/engine/building_from_source' },
           { text: 'Contributing', link: '/engine/contributing' },
         ]
       },
