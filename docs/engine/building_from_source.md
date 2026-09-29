@@ -72,33 +72,26 @@ A few other targets are useful once you are working in the tree:
 Versions are pinned in `gradle/libs.versions.toml` and their checksums are recorded. Editing a version means regenerating that metadata, and it has to be done against a cold dependency cache or the result passes locally and fails in CI. [CONTRIBUTING.md](https://github.com/OpenIntegrationEngine/engine/blob/main/CONTRIBUTING.md) has the exact command.
 :::
 
-## Create the development database
+## Development database
 
-A fresh tree has no database. Create the embedded Derby one before the first run:
-
-```bash
-./gradlew :server:createDerbyDb
-```
-
-This is a one-time step. Run it again only after wiping the database.
+A fresh tree has no database, and you do not need to create one. The server checks for its database on each startup and creates the embedded Derby database and its schema automatically if they do not exist yet, so no manual action is needed.
 
 ## Run the server
+
+```bash
+server/setup/oieserver
+```
+
+`oieserver` is the launcher script the build stages into `server/setup`, the same one a production installation uses, which makes it the closest thing to running a real installation out of your working tree. It changes to its own directory first, so you can run it from the repository root. It runs in the foreground and streams the log to your terminal. Stop it with `Ctrl+C`.
+
+You can also start the same staged server through Gradle:
 
 ```bash
 ./gradlew :server:devLauncher -PdisableSigning=true
 ```
 
-`devLauncher` starts the server from `server/setup` the same way the production launcher does, which makes it the closest thing to running a real installation out of your working tree. It runs in the foreground and streams the log to your terminal. Stop it with `Ctrl+C`.
-
-You can also run the launcher script from the staged distribution directly, which is the same server started the same way:
-
-```bash
-cd server/setup
-./oieserver
-```
-
 ::: warning `:server:devRun` does not currently work
-`CONTRIBUTING.md` also lists `:server:devRun`, which runs the server straight from the compiled classes rather than from `server/setup`. On current `main` it fails at startup with `Could not find resource SqlMapConfig.xml` and then retries in a loop, because the `dbconf` directory that holds that file is packaged into the distribution but is not on the task's classpath. This is tracked in [issue #416](https://github.com/OpenIntegrationEngine/engine/issues/416). Use `devLauncher` until it is fixed.
+`CONTRIBUTING.md` also lists `:server:devRun`, which runs the server straight from the compiled classes rather than from `server/setup`. On current `main` it fails at startup with `Could not find resource SqlMapConfig.xml` and then retries in a loop, because the `dbconf` directory that holds that file is packaged into the distribution but is not on the task's classpath. This is tracked in [issue #416](https://github.com/OpenIntegrationEngine/engine/issues/416). Use `server/setup/oieserver` until it is fixed.
 :::
 
 A successful startup ends with lines like these. Versions, addresses and dates will differ:
@@ -124,7 +117,14 @@ WARN  [Main Server Thread] com.mirth.connect.server.Mirth:
 ********************************************************************************
 ```
 
-The username is `admin`. The password is generated per database and is not a fixed default, so copy it from that banner. It is printed only when the database is first initialized; if you have lost it, recreate the database and read the new one.
+The username is `admin`. To choose the password yourself instead, set `server.initialadminpassword` in `server/setup/conf/mirth.properties` before the first startup. The file already contains an empty `server.initialadminpassword =` entry, so set that line rather than appending a second one, then start the server:
+
+```bash
+perl -pi -e 's/^server\.initialadminpassword\s*=.*/server.initialadminpassword = admin/' server/setup/conf/mirth.properties
+server/setup/oieserver
+```
+
+The property is read only when the database is first created; if it is left empty, the server generates a password and prints it in the banner above.
 
 ## Connect to it
 
@@ -154,7 +154,3 @@ Two directories outside the module list are worth knowing: `gradle` holds the ve
 Import the repository as a Gradle project. IntelliJ IDEA handles this natively; Eclipse does it through Buildship. The old `.classpath` and `.project` files were removed deliberately, so do not go looking for them.
 
 To attach a debugger, add `--debug-jvm` to any of the run targets. The JVM suspends at startup and waits for a connection on port 5005.
-
----
-
-The build and run steps on this page were reconstructed from the walkthroughs [@mgaffigan](https://github.com/mgaffigan) and [@VillePekka](https://github.com/VillePekka) contributed to [issue #118](https://github.com/OpenIntegrationEngine/engine/issues/118), updated for the Gradle build that replaced Ant.
