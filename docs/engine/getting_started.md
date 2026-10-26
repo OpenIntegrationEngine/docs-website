@@ -4,7 +4,7 @@ search: false
 head:
   - - meta
     - http-equiv: refresh
-      content: 0; url=/engine/installation.html
+      content: 0; url=/engine/installation.html#system-requirements
   - - meta
     - name: robots
       content: noindex

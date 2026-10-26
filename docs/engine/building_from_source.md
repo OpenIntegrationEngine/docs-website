@@ -13,7 +13,7 @@ The build is driven by Gradle through a wrapper committed to the repository, so 
 
 ### Java
 
-The repository pins the JDK it is built against in [`.sdkmanrc`](https://github.com/OpenIntegrationEngine/engine/blob/main/.sdkmanrc) at the root of the tree. At the time of writing that is a Java 17 Zulu build with JavaFX included, and the JavaFX part matters: the Administrator client will not compile against a plain JDK.
+The repository pins the JDK it is built against in [`.sdkmanrc`](https://github.com/OpenIntegrationEngine/engine/blob/main/.sdkmanrc) at the root of the tree. At the time of writing that is a Java 17 Zulu build with JavaFX included, and the JavaFX part matters when you run the Administrator client. The client compiles on a plain JDK, because the repository carries the JavaFX classes it compiles against.
 
 The least error-prone way to get exactly that JDK is [SDKMAN](https://sdkman.io/), which reads the pin for you:
 
@@ -56,7 +56,7 @@ java -version
 ./gradlew build -PdisableSigning=true
 ```
 
-`-PdisableSigning=true` turns off jar signing. Signing is for published releases and needs a key you do not have, so leave it off for local work. It also takes a long time, which you will notice if you forget the flag.
+`-PdisableSigning=true` turns off jar signing. Without it the build signs with a self-signed development certificate kept in the repository, so no key of yours is needed. Signing is slow, though, and contacts a timestamp service over the network. Leave it off for local work.
 
 The first run downloads the Gradle distribution and every dependency, so expect several minutes. Later runs are much faster. A successful build ends with `BUILD SUCCESSFUL` and leaves a complete server layout in `server/setup`.
 
@@ -89,7 +89,7 @@ You can also start the same staged server through Gradle:
 ```
 
 ::: warning `:server:devRun` does not currently work
-`CONTRIBUTING.md` also lists `:server:devRun`, which runs the server straight from the compiled classes rather than from `server/setup`. On current `main` it fails at startup with `Could not find resource SqlMapConfig.xml` and then retries in a loop, because the `dbconf` directory that holds that file is packaged into the distribution but is not on the task's classpath. This is tracked in [issue #416](https://github.com/OpenIntegrationEngine/engine/issues/416). Use `server/setup/oieserver` until it is fixed.
+`CONTRIBUTING.md` also lists `:server:devRun`, which runs the server straight from the compiled classes rather than from `server/setup`. On current `main` it fails at startup with `Could not find resource SqlMapConfig.xml` and then retries startup twice, 10 seconds apart, before aborting, because the `dbconf` directory that holds that file is packaged into the distribution but is not on the task's classpath. The reporter closed [engine issue #416](https://github.com/OpenIntegrationEngine/engine/issues/416) after finding that `:server:devLauncher` works, and `:server:devRun` itself still fails. Use `server/setup/oieserver` until it is fixed.
 :::
 
 A successful startup ends with lines like these. Versions, addresses and dates will differ:
@@ -101,7 +101,7 @@ INFO  [Main Server Thread] com.mirth.connect.server.Mirth: Web server running at
 ```
 
 ::: warning Stop any other engine first
-The server binds ports 8080 and 8443. If you already have OIE running as a service, or a container publishing those ports, start nothing until you have stopped it. Two engines on one port produce confusing results rather than a clear error, and you can end up administering the wrong one without noticing.
+The server binds ports 8080 and 8443. If you already have OIE running as a service, or a container publishing those ports, start nothing until you have stopped it. A second engine logs `http.port port is already in use: 8080` and `https.port port is already in use: 8443` and does not serve, but its process keeps running while the first engine keeps answering, so you can end up administering the wrong one without noticing.
 :::
 
 ### First login
@@ -126,9 +126,9 @@ The property is read only when the database is first created; if it is left empt
 
 ## Connect to it
 
-Open `https://localhost:8443/` in a browser. The server presents a self-signed certificate, so you will have to accept a warning the first time. You should land on the engine's home page, which links to the Administrator launcher and the client API.
+Open `https://localhost:8443/` in a browser. The server presents a certificate signed by the engine's own generated certificate authority, so you will have to accept a warning the first time. You should land on the engine's status page, which links to the launcher documentation and the client API.
 
-From there, [Accessing the Administrator](./accessing_the_administrator.md) covers the browser-based administrator and the desktop Administrator launchers, including [Ballista](https://github.com/kayyagari/ballista/releases).
+From there, [Accessing the Administrator](./accessing_the_administrator.md) covers the browser-based administrator and the desktop Administrator's launcher.
 
 The Gradle build also exposes `:client:devClient`, which launches the desktop Administrator from the tree you just compiled. It connects to `https://localhost:8443` and will only reach the server you intended if nothing else is bound to that port.
 
