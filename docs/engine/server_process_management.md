@@ -5,14 +5,14 @@ description: Starting, stopping and checking the OIE service on Windows, Linux a
 
 # Server Process Management
 
-The installer registers OIE as a native service and sets it to start on boot, but it does not start it during installation. After a fresh install, start it once by hand or reboot the machine.
+The installer registers OIE as a native service and sets it to start on boot. After a fresh install, check whether it is running and start it by hand if it is not.
 
 ::: warning The service runs as a privileged account
 No dedicated service account is created. The service runs as root on Linux and macOS, and as the local system account on Windows.
 
-Channel scripts execute arbitrary code inside the server JVM and inherit whatever privileges the service holds. That is fine for evaluation and development. A production host should run the engine under an unprivileged account with only the access it needs.
+Channel scripts execute arbitrary code inside the server JVM and inherit whatever privileges the service holds. A production host should run the engine under an unprivileged account with only the access it needs.
 
-A guide to securing an installation, covering the service account, permissions on `conf`, `appdata` and the executable directories, and service definitions, will follow shortly.
+See [Security posture and hardening](./security_posture_and_hardening.md) for the service account and file permissions.
 :::
 
 On Windows the service appears in the Services manager (`services.msc`) as **Open Integration Engine Service**. Start it, stop it, or switch it between automatic and manual startup there, like any other Windows service. On Linux and macOS it is managed from a terminal.
@@ -21,7 +21,6 @@ From a command line:
 
 ::: code-group
 ```powershell [Windows]
-# or use the Services manager UI (services.msc), no shell required
 Get-Service 'Open Integration Engine Service'      # is it running?
 Start-Service 'Open Integration Engine Service'    # start it
 Stop-Service 'Open Integration Engine Service'     # stop it
@@ -32,17 +31,19 @@ sudo systemctl start oieservice    # start it
 sudo systemctl stop oieservice     # stop it
 ```
 ```bash [macOS]
-sudo launchctl list | grep com.oie.oieservice     # is it running?
+sudo launchctl list | grep com.oie.oieservice     # is it loaded, and running?
 sudo launchctl kickstart system/com.oie.oieservice      # start it
 sudo launchctl kickstart -k system/com.oie.oieservice   # restart it
+sudo launchctl bootout system/com.oie.oieservice        # stop it and unload it
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.oie.oieservice.plist   # load and start it again after bootout
 ```
 :::
 
-Starting and stopping the service needs elevation everywhere: an administrator PowerShell on Windows, `sudo` on Linux and macOS. On macOS, plain `kickstart` starts a stopped service and `kickstart -k` restarts one that is already running.
+Starting and stopping the service needs elevation everywhere: an administrator PowerShell on Windows, `sudo` on Linux and macOS. On macOS, `launchctl list` prints the PID in its first column, and `-` there means the daemon is loaded but not running. Plain `kickstart` starts a loaded daemon that is not running, and `kickstart -k` restarts one that is. `bootout` stops the daemon and unloads it, so it stays stopped until the next reboot or until `bootstrap` reloads it. `kickstart` cannot start a daemon that has been booted out. The installer writes the daemon definition to `/Library/LaunchDaemons/com.oie.oieservice.plist` with `RunAtLoad` set, so loading it also starts it.
 
 ## Starting it in the foreground
 
-`oieserver` runs the server in the foreground, streaming the log to your terminal. It also keeps writing `logs/mirth.log`. Use it for a first look, for development, and for debugging a server that will not start. In production the service does this job. Windows ships two foreground launchers that start the same server. Open a command prompt for `oieserver.exe`, or a PowerShell prompt for `oieserver.ps1`. A command prompt cannot run the PowerShell script.
+`oieserver` runs the server in the foreground, streaming the log to your terminal. It also keeps writing `logs/mirth.log`. Use it for a first look, for development, and for debugging a server that will not start. In production, run the service instead. On Windows the foreground launcher is `oieserver.exe`. PowerShell needs the `.\` prefix to run a program from the current directory, and a command prompt does not.
 
 ::: code-group
 ```bash [Linux/macOS]
@@ -55,24 +56,42 @@ oieserver.exe
 ```
 ```powershell [Windows PowerShell]
 cd <installation directory>
-.\oieserver.ps1
+.\oieserver.exe
 ```
 :::
 
 Stop the service first. Otherwise both processes compete for ports 8080 and 8443.
 
-On first launch the server initializes the database. When it starts correctly you will see output similar to this. Version numbers, paths and addresses will differ:
+On first launch the server initializes the database and, unless an initial password was configured, logs a generated password for `admin`. See [Initial admin password](./accessing_the_administrator.md#initial-admin-password). When it starts correctly you will see output similar to this. Version numbers, build dates and addresses will differ:
 
 ```log
-INFO  2026-01-15 20:07:38.773 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine server successfully started.
-INFO  2026-01-15 20:07:38.776 [Main Server Thread] com.mirth.connect.server.Mirth: This product was developed by NextGen Healthcare (https://www.nextgen.com) and its contributors (c)2005-2024.
-INFO  2026-01-15 20:07:38.776 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine contributors (c)2025.
-INFO  2026-01-15 20:07:38.777 [Main Server Thread] com.mirth.connect.server.Mirth: Running OpenJDK 64-Bit Server VM on Mac OS X (15.7.3, aarch64), derby, with charset UTF-8.
-INFO  2026-01-15 20:07:38.778 [Main Server Thread] com.mirth.connect.server.Mirth: Web server running at http://192.168.1.X:8080/ and https://192.168.1.X:8443/
+INFO  2026-10-20 23:09:29.879 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine 4.7.0 (Built on October 15, 2026) server successfully started.
+INFO  2026-10-20 23:09:29.881 [Main Server Thread] com.mirth.connect.server.Mirth: This product was developed by NextGen Healthcare (https://www.nextgen.com) and its contributors (c)2005-2024.
+INFO  2026-10-20 23:09:29.881 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine contributors (c)2025.
+INFO  2026-10-20 23:09:29.882 [Main Server Thread] com.mirth.connect.server.Mirth: Running OpenJDK 64-Bit Server VM 21.0.12.1 on Linux (6.8.0-138-generic, amd64), derby, with charset UTF-8.
+INFO  2026-10-20 23:09:29.888 [Main Server Thread] com.mirth.connect.server.Mirth: Web server running at http://192.168.1.20:8080/ and https://192.168.1.20:8443/
 ```
 
-::: tip
-Note these URLs, as you will need them later.
-:::
-
 When the server is up, see [Accessing the Administrator](./accessing_the_administrator.md).
+
+## Choosing a Java
+
+`oieserver`, `oieservice` and `oiecommand` (`.exe` on Windows) are launchers generated by the install4j packaging tool, in the installers and in the archives. They accept Java 17 and newer.
+
+To choose the Java the server runs on, use either of these. Both take the Java home directory, not the `java` binary.
+
+- A line `-jvm=<Java home>` in `conf/custom.vmoptions`. `oieserver.vmoptions` and `oieservice.vmoptions` both include that file, so the line applies to the foreground launcher and to the service.
+- The environment variable `INSTALL4J_JAVA_HOME_OVERRIDE=<Java home>`.
+
+Otherwise the launcher searches, in order: the Java named in `.install4j/pref_jre.cfg`, a bundled JRE, `java` on the `PATH`, common install locations, then `JAVA_HOME`, `JDK_HOME`, `INSTALL4J_JAVA_HOME` and the Java named in `.install4j/inst_jre.cfg`. `JAVA_HOME` is ignored when a `java` of version 17 or newer is on the `PATH`.
+
+This behavior was checked on the Linux launcher, except `JDK_HOME`, `INSTALL4J_JAVA_HOME` and `.install4j/inst_jre.cfg`, which were read from its script. The Windows and macOS launchers have not been tested.
+
+`OIE_JAVA_PATH` and the `-java-cmd` directive apply only to the shell script that the Docker image runs as `oieserver`. The install4j launchers ignore `OIE_JAVA_PATH`, and a `-java-cmd` line in `conf/custom.vmoptions` stops the server from starting:
+
+```text
+Unrecognized option: -java-cmd ...
+Error: Could not create the Java Virtual Machine.
+```
+
+The comments in the shipped `conf/custom.vmoptions` describe `-java-cmd`, but it does not work with these launchers.

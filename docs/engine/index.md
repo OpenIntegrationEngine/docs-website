@@ -5,7 +5,7 @@
 [![Docker](https://img.shields.io/badge/docker-openintegrationengine-blue?logo=docker&style=flat)](https://hub.docker.com/u/openintegrationengine)
 [![LinkedIn](https://img.shields.io/badge/linkedin-follow-blue?logo=linkedin&style=flat)](https://www.linkedin.com/company/open-integration-engine)
 
-## Mission Statement
+## Mission statement
 
 To empower seamless healthcare interoperability through an open, community-driven integration engine that is accessible, extensible, and standards-based.
 
@@ -21,13 +21,13 @@ The **Open Integration Engine Project** is an open-source initiative committed t
   Transparency, innovation, and collaborative development within the healthcare IT community.
 
 - **Healthcare-Focused**
-  Designed to address the unique challenges of healthcare data integration, supporting standards such as HL7, FHIR, and DICOM.
+  Designed to address the unique challenges of healthcare data integration, with data types for HL7 v2.x, HL7 v3.x, DICOM, EDI / X12, and NCPDP Telecom. FHIR can be exchanged over the HTTP connectors using the JSON and XML data types.
 
 - **Extensible and Customizable**
   Modular architecture for customization and expansion to meet evolving needs.
 
 
-## Core Features
+## Core features
 
 - **Data Transformation and Mapping**
   Convert between HL7, JSON, XML, and other formats to ensure cross-system compatibility.
@@ -42,7 +42,7 @@ The **Open Integration Engine Project** is an open-source initiative committed t
   Visual tools for tracking message flow, performance metrics, and setting up alerts.
 
 
-## Who It’s For
+## Who it’s for
 
 - **Integration Engineers** – Looking for a flexible, open platform for managing interfaces
 - **Health IT Teams** – Connecting EHRs, LIS, RIS, and other healthcare systems
@@ -50,14 +50,14 @@ The **Open Integration Engine Project** is an open-source initiative committed t
 - **Researchers** – Requiring reliable, standards-based integration tools
 
 
-## Project Values
+## Project values
 
 - **Community-Driven Development** – Innovation through global collaboration
 - **Vendor Neutrality** – Free from proprietary constraints
-- **Security and Compliance** – HIPAA/GDPR-compliant architecture
+- **Security and Compliance** – Encryption, user authentication, and audit logging. HIPAA or GDPR compliance depends on the deployment, not the software
 
 
-## Community and Governance
+## Community and governance
 
 Engage with the community and project through:
 
@@ -72,7 +72,7 @@ Engage with the community and project through:
 Governance is structured to be transparent and inclusive, with decisions made collectively to reflect the community’s best interests.
 
 
-## History and Roadmap
+## History and roadmap
 
 Forked from **Mirth Connect** following its shift to a proprietary model, this project continues the legacy of open healthcare integration.
 
