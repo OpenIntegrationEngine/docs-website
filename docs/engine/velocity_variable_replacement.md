@@ -19,6 +19,26 @@ This pulls the value from the variable maps (see [Variable Map Priority](#variab
 
 A key you name yourself, such as `patientId`, is in a map only because a transformer step stored it: a [Mapper step](./filters_and_transformers.md#mapper-step) writes to the map chosen by its scope setting (the channel map by default), and a JavaScript step calls `channelMap.put('patientId', value)`.
 
+## Keys that contain dots
+
+A `.` inside `${...}` is Velocity property navigation, not part of the key. `${db.warehouse.url}` asks for an object named `db`, then its `warehouse` property, then that property's `url`. It never looks for a key literally named `db.warehouse.url`. This comes up most with the Configuration Map, where dotted keys are a common naming style.
+
+Read a dotted key with `maps.get` instead:
+
+```text
+${maps.get('db.warehouse.url')}
+```
+
+`maps.get` reads the first loaded map that has the key, so it returns the lowest-priority match (see [Variable map priority](#variable-map-priority)). For a Configuration Map key that is the Configuration Map value, even when a higher-priority map holds the same key.
+
+Neither spelling reports a missing key. An unresolved reference is left in the field as literal text, so the failure appears wherever that field is used rather than as a replacement error. A Database Writer whose URL still holds the unresolved reference reports:
+
+```text
+No suitable driver found for ${db.warehouse.url}
+```
+
+A `${...}` showing up in an error message means the reference did not resolve.
+
 ## Variable map priority
 
 When you reference `${variableName}` in a message-level field, OIE loads all variable maps into a single Velocity context. Maps loaded later overwrite earlier values for the same key, so later maps have higher priority. The effective priority from highest to lowest is:
@@ -71,7 +91,7 @@ The utility variables `date`, `DATE`, `COUNT`, `UUID` and `SYSTIME` go into the 
 | `${originalFilename}` | Original filename from the source connector (defaults to `<timestamp>.dat` if unset) |
 | `${XmlUtil}` | The `XmlUtil` script class, for static calls such as `${XmlUtil.encode($value)}` |
 | `${JsonUtil}` | The `JsonUtil` script class, for static calls such as `${JsonUtil.escape($value)}` |
-| `${maps.get('key')}` | The value of a key from the first loaded map that has it. Maps load from the configuration map toward the response map, so this returns the lowest-priority match |
+| `${maps.get('key')}` | The value of a key from the first loaded map that has it. Maps load from the configuration map toward the response map, so this returns the lowest-priority match. Use it for [keys that contain dots](#keys-that-contain-dots) |
 
 ### Date formatting examples
 
