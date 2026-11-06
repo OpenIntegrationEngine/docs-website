@@ -1,6 +1,8 @@
 import DefaultTheme from 'vitepress/theme'
 import {inBrowser, type Theme} from 'vitepress'
 import './custom.css'
+import {h} from 'vue'
+import FeedbackBox from './FeedbackBox.vue'
 
 // Screenshots in a page; badges and other images from elsewhere are left alone.
 const SCREENSHOT = '.vp-doc img:not([src^="http"])'
@@ -28,6 +30,8 @@ function zoom(img: HTMLImageElement) {
 
 export default {
   extends: DefaultTheme,
+  // The feedback box sits above the content of every documentation page.
+  Layout: () => h(DefaultTheme.Layout, null, {'doc-before': () => h(FeedbackBox)}),
   enhanceApp() {
     if (!inBrowser) return
     document.addEventListener('click', (e) => {
