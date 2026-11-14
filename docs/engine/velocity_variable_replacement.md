@@ -29,7 +29,10 @@ Read a dotted key with `maps.get` instead:
 ${maps.get('db.warehouse.url')}
 ```
 
-`maps.get` reads the first loaded map that has the key, so it returns the lowest-priority match (see [Variable map priority](#variable-map-priority)). For a Configuration Map key that is the Configuration Map value, even when a higher-priority map holds the same key.
+> [!WARNING]
+> This behavior is likely a bug and may change in future releases to respect normal map priority.
+>
+> `maps.get` reads the first loaded map that has the key, so it returns the lowest-priority match (see [Variable map priority](#variable-map-priority)). For a Configuration Map key that is the Configuration Map value, even when a higher-priority map holds the same key.
 
 Neither spelling reports a missing key. An unresolved reference is left in the field as literal text, so the failure appears wherever that field is used rather than as a replacement error. A Database Writer whose URL still holds the unresolved reference reports:
 
