@@ -42,7 +42,7 @@ No suitable driver found for ${db.warehouse.url}
 
 A `${...}` showing up in an error message means the reference did not resolve.
 
-When you choose the key names yourself, the simplest fix is not to use a dot at all. `db_warehouse_url` or `dbWarehouseUrl` reads with plain `${...}` and needs none of the above.
+When you choose the key names yourself, the simplest fix is not to use a dot at all. `db_warehouse_url` or `dbWarehouseUrl` reads with plain `${...}` and needs no `maps.get`.
 
 ## Variable map priority
 
