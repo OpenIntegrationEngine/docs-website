@@ -3,6 +3,7 @@ import {inBrowser, type Theme} from 'vitepress'
 import './custom.css'
 import {h} from 'vue'
 import FeedbackBox from './FeedbackBox.vue'
+import IssueLink from './IssueLink.vue'
 
 // Screenshots in a page; badges and other images from elsewhere are left alone.
 const SCREENSHOT = '.vp-doc img:not([src^="http"])'
@@ -30,8 +31,11 @@ function zoom(img: HTMLImageElement) {
 
 export default {
   extends: DefaultTheme,
-  // The feedback box sits above the content of every documentation page.
-  Layout: () => h(DefaultTheme.Layout, null, {'doc-before': () => h(FeedbackBox)}),
+  // On every documentation page: one line above the content, and an issue link above "Edit this page on GitHub".
+  Layout: () => h(DefaultTheme.Layout, null, {
+    'doc-before': () => h(FeedbackBox),
+    'doc-footer-before': () => h(IssueLink),
+  }),
   enhanceApp() {
     if (!inBrowser) return
     document.addEventListener('click', (e) => {

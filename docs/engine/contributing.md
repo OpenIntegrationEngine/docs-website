@@ -13,37 +13,32 @@ most people want the first one.
 The documentation lives in its own repository,
 [openintegrationengine/docs-website](https://github.com/OpenIntegrationEngine/docs-website),
 separate from the engine. Every page on this site is a Markdown file under
-`docs/`. There are two ways to suggest a change.
+`docs/`. There are three ways to suggest a change.
+
+### Edit it on GitHub
+
+To change a page, use the **Edit this page on GitHub** link at the bottom of
+it. GitHub opens the file in its editor, makes a copy of the repository for
+you, and takes you to the pull request. Nothing needs installing.
 
 ### Report it in an issue
 
-If something is wrong, missing or unclear,
+If something is wrong, missing or unclear, use the **Open an issue about this
+page** link at the bottom of the page. It opens a new issue on the
+documentation repository with the page title and address filled in. Say what
+the page says and what it should say if you know. All you need is a GitHub
+account. For anything that is not about one page,
 [open an issue](https://github.com/OpenIntegrationEngine/docs-website/issues)
-on the documentation repository. Say which page, what it says, and what it
-should say if you know. All you need is a GitHub account.
+directly.
 
-### Change it yourself in a pull request
+### Work on a local copy
 
-For a small change, use the **Edit this page on GitHub** link at the bottom of
-the page. GitHub opens the file in its editor, makes a copy of the repository
-for you, and takes you to the pull request.
-
-For anything larger, work on a copy of the site:
-
-1. Fork [openintegrationengine/docs-website](https://github.com/OpenIntegrationEngine/docs-website) and clone your fork.
-2. Install the tooling and start the site locally:
-   ```bash
-   bun install
-   bun run docs:dev
-   ```
-   The site serves at `http://localhost:5173/` and reloads as you edit.
-3. Edit the Markdown under `docs/`. The page you are reading is
-   `docs/engine/contributing.md`, and the other pages follow the same pattern.
-4. Run `bun run docs:build` before you push. The build fails on dead links, so
-   this catches the most common mistake. The build warns that some chunks are
-   larger than 500 kB. That is the search index, and it is expected.
-5. Open a pull request against `main` with a short description of what changed
-   and why.
+For larger changes, such as adding a page, set up a copy of the site as the
+repository's
+[README](https://github.com/OpenIntegrationEngine/docs-website/blob/main/README.md)
+describes. Run `bun run docs:build` before you push. The build fails on dead
+links, so this catches the most common mistake. The build warns that some
+chunks are larger than 500 kB. That is the search index, and it is expected.
 
 **One thing worth knowing before you edit a code sample.** The samples on this
 site are checked against the engine source, not written from memory, because a
