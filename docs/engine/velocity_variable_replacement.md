@@ -42,6 +42,8 @@ No suitable driver found for ${db.warehouse.url}
 
 A `${...}` showing up in an error message means the reference did not resolve.
 
+When you choose the key names yourself, the simplest fix is not to use a dot at all. `db_warehouse_url` or `dbWarehouseUrl` reads with plain `${...}` and needs none of the above.
+
 ## Variable map priority
 
 When you reference `${variableName}` in a message-level field, OIE loads all variable maps into a single Velocity context. Maps loaded later overwrite earlier values for the same key, so later maps have higher priority. The effective priority from highest to lowest is:
