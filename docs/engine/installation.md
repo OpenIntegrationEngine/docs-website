@@ -51,6 +51,8 @@ Pick the build that matches your architecture: `aarch` for Apple silicon and `x8
 
 ### Installing
 
+Before opening a download, read [Installer signing and security warnings](#installer-signing-and-security-warnings) and verify its checksum.
+
 Open the file you downloaded:
 
 * **Windows**: run the `.exe`.
@@ -61,19 +63,55 @@ Then follow the wizard: accept the Mozilla Public License 2.0, choose an install
 
 On a headless machine the installer detects that no display is available and runs as a console installer instead.
 
-::: warning Your operating system will warn about the installer
-Windows and macOS check downloaded programs for a code signature. The OIE installer does not have one, so you will see a security warning.
-
-On Windows the warning comes from SmartScreen, and often from the browser as well. On macOS, Gatekeeper blocks the `.dmg` the first time you open it. Allow it under System Settings, Privacy & Security. The wording varies by version.
-
-The Administrator client jars and the bundled extension jars carry a signature from a certificate authority with a trusted timestamp. The server jars, the command line jars and the two launcher jars are not signed by the project.
-
-Check your download against the published `sha256sums` and continue.
-:::
-
 ::: warning Install directory and sudo
 Installing into a directory you do not own, such as the default `/Applications/OpenIntegrationEngine` on macOS, means anything you later run by hand needs `sudo`.
 :::
+
+### Installer signing and security warnings
+
+Windows and macOS check downloaded programs for a code signature. The project states that the OIE installer does not have one, so you will see a security warning. A signed Java jar inside the installer does not give the installer a Windows publisher signature, an Apple Developer ID signature, or Apple notarization.
+
+For OIE 4.7.0, the checked-in [install4j configuration](https://github.com/OpenIntegrationEngine/engine/blob/v4.7.0/tools/install4j/oie-installer-config.install4j) contains no native code-signing or notarization configuration. The [Gradle signing task](https://github.com/OpenIntegrationEngine/engine/blob/v4.7.0/server/build.gradle#L726-L839) targets the Administrator client and extension jars. The server jars, the command line jars and the two launcher jars are not signed by the project. The task supports certificate-authority and self-signed certificates; the `-PdisableSigning=true` option in [Building from Source](./building_from_source.md) skips that jar-signing task for local builds.
+
+These build settings describe the source configuration, not a verification of the signatures or notarization of each published installer. Do not infer an official release's signing status from a locally built copy or from a security warning alone.
+
+#### Verify the download
+
+Download the installer and `sha256sums` from the same version on the [official releases page](https://github.com/OpenIntegrationEngine/engine/releases). Check the exact filename, including architecture and whether it includes a JRE. Compute its SHA-256 hash without opening it, using the appropriate command below and replacing the example filename with yours.
+
+**Windows (PowerShell):**
+
+```powershell
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\oie_windows-x64_4_7_0-with-JRE.exe'
+```
+
+**macOS (Terminal):**
+
+```bash
+shasum -a 256 'oie_macos_4_7_0-aarch-with-JRE.dmg'
+```
+
+**Linux (`.sh` or `.tar.gz`):**
+
+```bash
+sha256sum 'oie_unix_4_7_0-with-JRE.sh'
+# or check every downloaded file that is listed in sha256sums:
+sha256sum -c --ignore-missing sha256sums
+```
+
+Compare all 64 hexadecimal characters with the entry for that filename in `sha256sums` (the `*` before the filename marks binary mode; letter case does not matter). A match confirms agreement with the published checksum; it does not establish publisher identity, notarization, or that software is safe. If the hash differs, stop and download the file again from the official release. Do not run it while the mismatch remains unexplained.
+
+#### Windows SmartScreen
+
+SmartScreen considers both publisher and file reputation. An unsigned installer or a newly released signed file can trigger a warning such as **Windows protected your PC**; the browser may also warn that a download is uncommon. A reputation warning alone does not establish that the file is malicious or that it is safe. See [Microsoft's explanation of SmartScreen reputation](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/smartscreen-reputation).
+
+Verify the source and checksum before deciding whether to proceed. On a managed computer, ask your administrator to review the installer through your organization's software approval process. Policy or Windows Smart App Control may prevent it from running. Do not turn off SmartScreen, Smart App Control, or antivirus protection to install OIE. Treat a malware detection as a reason to stop and investigate, not as an ordinary reputation warning.
+
+#### macOS Gatekeeper
+
+Gatekeeper checks software downloaded outside the App Store for an identified developer and Apple notarization. A warning about an unidentified developer or an app that Apple cannot check for malicious software can appear when you open the disk image or the installer inside it; wording varies by macOS version. Notarization is a separate Apple check, not the same as signing the Java jars.
+
+After verifying the source and checksum, consult [Apple's guidance on safely opening apps](https://support.apple.com/en-us/102445) to understand the warning and the conditions for an app-specific exception. On a managed Mac, ask your administrator to review it. Keep Gatekeeper enabled and do not remove quarantine attributes to suppress the checks. If macOS says the app will damage your computer, contains malware, or is damaged, stop and investigate instead of treating that as an unidentified-developer warning.
 
 ### Installing from an archive
 
